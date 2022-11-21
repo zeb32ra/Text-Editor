@@ -13,33 +13,68 @@ namespace Programm
         string Path;
         Work_With_Files file = new Work_With_Files();
         ConsoleKeyInfo key;
-        string[] content;
+        List<People> inside = new List<People>();
+        List<string> inside_content = new List<string>();
         
         public void Programm()
         {
             
-                if (we_are_in_main)
-                {
-                    Console.WriteLine("Введите путь до файла (вместе с названием), который вы хотите открыть\n" +
-                        "------------------------------------------------------------------------");
-                    Path = Console.ReadLine();
+            if (we_are_in_main)
+            {
+                Console.WriteLine("Введите путь до файла (вместе с названием), который вы хотите открыть\n" +
+                    "------------------------------------------------------------------------");
+                Path = Console.ReadLine();
 
-                    we_are_in_main = false;
-                    we_opened_the_file = true;
-                }
-                if (we_opened_the_file)
+                we_are_in_main = false;
+                we_opened_the_file = true;
+            }
+            if (we_opened_the_file)
+            {
+                if (Path.EndsWith(".txt"))
                 {
-                    if (Path.EndsWith(".txt"))
-                    {
-                        Console.Clear();
+                    Console.Clear();
                        
-                        content = file.create_or_open_txt(Path);
-                        Console.Clear();
-                        strelki(content.Length); 
-                    }
-
+                    inside = file.create_or_open_txt(Path);
                     
+                    foreach (People person in inside)
+                    {
+                        inside_content.Add(person.age);
+                        inside_content.Add(person.name);
+                        inside_content.Add(person.zodiak);
+                        inside_content.Add(person.profession);
+                    }
+                    strelki(inside_content.Count); 
                 }
+                if (Path.EndsWith(".json"))
+                {
+                    Console.Clear();
+                    inside = file.create_or_open_json(Path);
+                    foreach (People person in inside)
+                    {
+                        inside_content.Add(person.age);
+                        inside_content.Add(person.name);
+                        inside_content.Add(person.zodiak);
+                        inside_content.Add(person.profession);
+                    }
+                    strelki(inside_content.Count);
+
+                }
+                if (Path.EndsWith(".xml"))
+                {
+                    Console.Clear();
+                    inside = file.create_or_open_xml(Path);
+                    foreach (People person in inside)
+                    {
+                        inside_content.Add(person.age);
+                        inside_content.Add(person.name);
+                        inside_content.Add(person.zodiak);
+                        inside_content.Add(person.profession);
+                    }
+                    strelki(inside_content.Count);
+
+                }
+
+            }
             
         }
         private void strelki(int max_position)
@@ -80,6 +115,7 @@ namespace Programm
                 Console.SetCursorPosition(0, position);
                 if (key.Key == ConsoleKey.Escape)
                 {
+                    Console.Clear();
                     break;
                 }
                 if (key.Key == ConsoleKey.Enter)
@@ -99,10 +135,29 @@ namespace Programm
                     string new_path = Console.ReadLine();
                     if (new_path.EndsWith(".txt"))
                     {
-                        file.save_to_txt(new_path, content);
+                        file.save_to_txt(new_path, inside_content);
                         we_are_in_main = true;
                         Console.Clear();
-                        Array.Clear(content);
+                        inside_content.Clear();
+                        inside.Clear();
+                        Programm();
+                    }
+                    if (new_path.EndsWith(".json"))
+                    {
+                        file.save_to_json(new_path, inside_content, inside);
+                        we_are_in_main = true;
+                        Console.Clear();
+                        inside_content.Clear();
+                        inside.Clear();
+                        Programm();
+                    }
+                    if (new_path.EndsWith(".xml"))
+                    {
+                        file.save_to_xml(new_path, inside_content, inside);
+                        we_are_in_main = true;
+                        Console.Clear();
+                        inside_content.Clear();
+                        inside.Clear();
                         Programm();
                     }
                 }
@@ -113,7 +168,8 @@ namespace Programm
             Console.WriteLine("Сохранить файл в одном из трех форматов (txt, json, xml) - F1." +
                         "Закрыть программу - Escape\n---------------------------------------------------------");
             int i = 2;
-            foreach (string s in content)
+            
+            foreach (string s in inside_content)
             {
                 Console.SetCursorPosition(2, i);
                 Console.WriteLine(s);
@@ -126,9 +182,9 @@ namespace Programm
             Console.Clear();
             Console.WriteLine("Вы решили переделать позицию " + (position - 1) + ". Введите новое значение");
             Console.WriteLine("---------------------------------------------------------------");
-            content[position - 2] = Console.ReadLine();
+            inside_content[position - 2] = Console.ReadLine();
             Console.Clear();
-            strelki(content.Length);
+            strelki(inside_content.Count);
 
         }
     }

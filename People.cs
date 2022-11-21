@@ -13,5 +13,12 @@
             zodiak = P_zodiak;
             profession = P_profession;
         }
+        public People()
+        {
+            age = age;
+            name = name;
+            zodiak = zodiak;
+            profession = profession;
+        }
     }
 }
