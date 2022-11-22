@@ -7,7 +7,7 @@ namespace Files
 {
     internal class Work_With_Files
     {
-        string text = "17\nNastya\nVirgo\nProgrammer";
+        /*string text = "17\nNastya\nVirgo\nProgrammer";*/
         People Nastya = new People("17", "Nastya", "Virgo", "Programmer");
         public string[] content;
         public List<People> result = new List<People>();
@@ -32,6 +32,7 @@ namespace Files
             else
             {
                 result.Add(Nastya);
+                string text = Nastya.age + "\n" + Nastya.name + "\n" + Nastya.zodiak + "\n" + Nastya.profession;
                 File.WriteAllText(path, Nastya.age + "\n" + Nastya.name + "\n" + Nastya.zodiak + "\n" + Nastya.profession);
                 content = Regex.Split(text, "\n");
             }

@@ -86,6 +86,11 @@ namespace Programm
             while (true)
             {
                 key = Console.ReadKey();
+                if (key.Key == ConsoleKey.Escape)
+                {
+                    Console.Clear();
+                    System.Environment.Exit(0);
+                }
                 if (key.Key == ConsoleKey.UpArrow)
                 {
                     if (position - 1 == 1)
@@ -113,11 +118,7 @@ namespace Programm
                 Console.SetCursorPosition(0, position);
                 Console.WriteLine("->");
                 Console.SetCursorPosition(0, position);
-                if (key.Key == ConsoleKey.Escape)
-                {
-                    Console.Clear();
-                    break;
-                }
+
                 if (key.Key == ConsoleKey.Enter)
                 {
                     we_opened_the_file = false;
