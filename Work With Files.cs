@@ -9,8 +9,8 @@ namespace Files
     {
         string text = "17\nNastya\nVirgo\nProgrammer";
         People Nastya = new People("17", "Nastya", "Virgo", "Programmer");
-        string[] content;
-        List<People> result = new List<People>();
+        public string[] content;
+        public List<People> result = new List<People>();
 
 
         public List<People> create_or_open_txt(string path)
@@ -47,14 +47,15 @@ namespace Files
         {
             if (File.Exists(path))
             {
+                People person;
                 string inside = File.ReadAllText(path);
-                result = JsonConvert.DeserializeObject<List<People>>(inside);
-                
+                person = JsonConvert.DeserializeObject<People>(inside);
+                result.Add(person);
             }
             else
             {
                 result.Add(Nastya);
-                string to_file = JsonConvert.SerializeObject(result);
+                string to_file = JsonConvert.SerializeObject(Nastya);
                 File.WriteAllText(path, to_file);
             }
             return result;
@@ -74,8 +75,12 @@ namespace Files
 
                 }
             }
-            string json = JsonConvert.SerializeObject(people_content);
-            File.WriteAllText(path, json);
+            
+            foreach (People p in people_content)
+            {
+                string json = JsonConvert.SerializeObject(p);
+                File.WriteAllText(path, json);
+            }
 
         }
         public List<People> create_or_open_xml(string path)
@@ -84,7 +89,7 @@ namespace Files
             if (File.Exists(path))
             {
                 People person;
-                using (FileStream fs = new FileStream(path, FileMode.Open))
+                using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
                 {
                     person = (People)xml.Deserialize(fs);
                     result.Add(person);

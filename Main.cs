@@ -5,7 +5,7 @@ namespace Programm
 {
     internal class Main
     {
-        People Nastya = new People("17", "Nastya", "Virgo", "Programmer");
+        
         bool we_are_in_main = true;
         bool we_opened_the_file = false;
         bool we_are_changing_data = false;
@@ -123,14 +123,12 @@ namespace Programm
                     we_opened_the_file = false;
                     we_are_changing_data = true;
                     reformat_the_content(position);
-                    we_are_changing_data = false;
-                    we_opened_the_file = true;
                 }
                 if (key.Key == ConsoleKey.F1)
                 {
                     
                     Console.Clear();
-                    Console.WriteLine("Введите путь до файла (вместе с названием), куда вы хотите" +
+                    Console.WriteLine("Введите путь до файла (вместе с названием), куда вы хотите " +
                         "сохранить текст\n---------------------------------------------------------");
                     string new_path = Console.ReadLine();
                     if (new_path.EndsWith(".txt"))
@@ -158,6 +156,7 @@ namespace Programm
                         Console.Clear();
                         inside_content.Clear();
                         inside.Clear();
+                        file.result.Clear();
                         Programm();
                     }
                 }
@@ -166,7 +165,7 @@ namespace Programm
         private void write_content()
         {
             Console.WriteLine("Сохранить файл в одном из трех форматов (txt, json, xml) - F1." +
-                        "Закрыть программу - Escape\n---------------------------------------------------------");
+                        "Закрыть программу - Escape. Изменить данные - Enter\n---------------------------------------------------------");
             int i = 2;
             
             foreach (string s in inside_content)
@@ -184,6 +183,8 @@ namespace Programm
             Console.WriteLine("---------------------------------------------------------------");
             inside_content[position - 2] = Console.ReadLine();
             Console.Clear();
+            we_are_changing_data = false;
+            we_opened_the_file = true;
             strelki(inside_content.Count);
 
         }
